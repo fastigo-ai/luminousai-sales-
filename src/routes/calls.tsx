@@ -25,7 +25,7 @@ function CallsPage() {
   useEffect(() => {
     const fetchCalls = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/poc/calls/list");
+        const res = await fetch("https://aisalesagent-cxre.onrender.com/api/poc/calls/list");
         if (res.ok) {
           const data = await res.json();
           setCalls(data.calls || []);

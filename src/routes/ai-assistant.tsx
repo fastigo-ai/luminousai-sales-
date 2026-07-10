@@ -21,7 +21,7 @@ type Message = {
   full?: boolean;
 };
 
-const BACKEND_URL = "http://localhost:8000";
+const BACKEND_URL = "https://aisalesagent-cxre.onrender.com";
 const SENDER_ID = "web_user";
 
 function AssistantPage() {

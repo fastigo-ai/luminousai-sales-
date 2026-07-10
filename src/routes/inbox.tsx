@@ -61,7 +61,7 @@ function InboxPage() {
     setGenerating(true);
     try {
       const lastMessage = selectedThread.history[selectedThread.history.length - 1].text;
-      const res = await fetch("http://localhost:8000/api/poc/inbox/generate-reply", {
+      const res = await fetch("https://aisalesagent-cxre.onrender.com/api/poc/inbox/generate-reply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message_context: lastMessage })

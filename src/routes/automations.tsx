@@ -30,7 +30,7 @@ function ClayFindCompaniesReplica() {
   const handleSearch = async () => {
     setIsSearching(true);
     try {
-      const response = await fetch("http://localhost:8000/api/automation/search", {
+      const response = await fetch("https://aisalesagent-cxre.onrender.com/api/automation/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ filters })
@@ -59,7 +59,7 @@ function ClayFindCompaniesReplica() {
           linkedin_url: c.linkedin || null
         }))
       };
-      const response = await fetch("http://localhost:8000/api/automation/enrich", {
+      const response = await fetch("https://aisalesagent-cxre.onrender.com/api/automation/enrich", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

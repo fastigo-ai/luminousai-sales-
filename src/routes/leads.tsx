@@ -24,7 +24,7 @@ type Lead = {
   status?: string;
 };
 
-const BACKEND_URL = "http://localhost:8000";
+const BACKEND_URL = "https://aisalesagent-cxre.onrender.com";
 
 import { useLeadDrawer } from "@/contexts/LeadDrawerContext";
 

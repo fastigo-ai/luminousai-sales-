@@ -11,7 +11,7 @@ export const Route = createFileRoute("/proposals")({
   component: ProposalsComponent,
 });
 
-const BACKEND_URL = "http://localhost:8000";
+const BACKEND_URL = "https://aisalesagent-cxre.onrender.com";
 
 function ProposalsComponent() {
   const { data: eligibleData, isLoading: isLoadingEligible } = useQuery({

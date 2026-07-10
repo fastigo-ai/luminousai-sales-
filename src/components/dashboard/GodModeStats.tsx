@@ -4,7 +4,7 @@ import { Icon } from "@/components/layout/Icon";
 export function GodModeStats() {
   const { data: stats, isLoading } = useQuery({
     queryKey: ["dashboard-stats"],
-    queryFn: () => fetch("http://localhost:8000/api/dashboard/stats").then(res => res.json()),
+    queryFn: () => fetch("https://aisalesagent-cxre.onrender.com/api/dashboard/stats").then(res => res.json()),
     refetchInterval: 5000,
   });
 

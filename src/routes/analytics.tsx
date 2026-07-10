@@ -12,7 +12,7 @@ export const Route = createFileRoute("/analytics")({
   component: AnalyticsComponent,
 });
 
-const BACKEND_URL = "http://localhost:8000";
+const BACKEND_URL = "https://aisalesagent-cxre.onrender.com";
 
 function AnalyticsComponent() {
   const { data: funnelData, isLoading: isLoadingFunnel } = useQuery({

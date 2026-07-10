@@ -26,19 +26,19 @@ function DashboardPage() {
 
   const { data: recommendations } = useQuery({
     queryKey: ["ai-recommendations"],
-    queryFn: () => fetch("http://localhost:8000/api/dashboard/ai_recommendations").then(res => res.json()),
+    queryFn: () => fetch("https://aisalesagent-cxre.onrender.com/api/dashboard/ai_recommendations").then(res => res.json()),
     refetchInterval: 10000,
   });
 
   const queryClient = useQueryClient();
   const { data: autopilotStatus } = useQuery({
     queryKey: ["autopilot-status"],
-    queryFn: () => fetch("http://localhost:8000/api/god-mode/autopilot").then(res => res.json()),
+    queryFn: () => fetch("https://aisalesagent-cxre.onrender.com/api/god-mode/autopilot").then(res => res.json()),
   });
 
   const toggleAutopilot = useMutation({
     mutationFn: async (enabled: boolean) => {
-      const res = await fetch("http://localhost:8000/api/god-mode/autopilot", {
+      const res = await fetch("https://aisalesagent-cxre.onrender.com/api/god-mode/autopilot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ enabled })
@@ -240,7 +240,7 @@ function LaunchCampaignModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:8000/api/automation/start", {
+      const res = await fetch("https://aisalesagent-cxre.onrender.com/api/automation/start", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
