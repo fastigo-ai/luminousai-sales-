@@ -9,7 +9,7 @@ export const Route = createFileRoute("/workspaces")({
   component: WorkspacesPage,
 });
 
-const BACKEND_URL = "http://localhost:8000";
+const BACKEND_URL = "https://aisalesagent-cxre.onrender.com";
 
 function WorkspacesPage() {
   const [isConfigSaving, setIsConfigSaving] = useState(false);

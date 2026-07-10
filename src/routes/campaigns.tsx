@@ -11,7 +11,7 @@ export const Route = createFileRoute("/campaigns")({
   component: CampaignsComponent,
 });
 
-const BACKEND_URL = "http://localhost:8000";
+const BACKEND_URL = "https://aisalesagent-cxre.onrender.com";
 
 function CampaignsComponent() {
   const { data, isLoading, refetch } = useQuery({
@@ -28,7 +28,7 @@ function CampaignsComponent() {
   useEffect(() => {
     // Connect to WebSocket for real-time updates
     const connectWs = () => {
-      const ws = new WebSocket(`ws://localhost:8000/api/campaigns/stream`);
+      const ws = new WebSocket(`wss://aisalesagent-cxre.onrender.com/api/campaigns/stream`);
       wsRef.current = ws;
 
       ws.onopen = () => {

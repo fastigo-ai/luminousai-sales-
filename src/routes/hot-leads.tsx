@@ -17,7 +17,7 @@ export const Route = createFileRoute("/hot-leads")({
 function HotLeadsPage() {
   const { data: hotLeads, isLoading } = useQuery({
     queryKey: ["hot-leads"],
-    queryFn: () => fetch("http://localhost:8000/api/poc/hot-leads").then(res => res.json()),
+    queryFn: () => fetch("https://aisalesagent-cxre.onrender.com/api/poc/hot-leads").then(res => res.json()),
   });
 
   const handleCall = (lead: any) => {

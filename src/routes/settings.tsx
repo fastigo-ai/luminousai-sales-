@@ -19,7 +19,7 @@ type LogItem = {
   message: string;
 };
 
-const BACKEND_URL = "http://localhost:8000";
+const BACKEND_URL = "https://aisalesagent-cxre.onrender.com";
 
 function SettingsPage() {
   // Connection states

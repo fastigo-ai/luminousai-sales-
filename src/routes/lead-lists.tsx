@@ -25,7 +25,7 @@ function LeadListsPage() {
 
   const fetchSpreadsheetData = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/automation/spreadsheet");
+      const res = await fetch("https://aisalesagent-cxre.onrender.com/api/automation/spreadsheet");
       if (res.ok) {
         const data = await res.json();
         setRows(data.rows || []);
@@ -67,7 +67,7 @@ function LeadListsPage() {
     if (!apolloSearchQuery) return;
     setIsApolloSearching(true);
     try {
-      const res = await fetch("http://localhost:8000/api/automation/search", {
+      const res = await fetch("https://aisalesagent-cxre.onrender.com/api/automation/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ filters: { search: apolloSearchQuery, limit: 5 } })
@@ -109,7 +109,7 @@ function LeadListsPage() {
     if (website) {
       setIsPeopleSearching(true);
       try {
-        const res = await fetch("http://localhost:8000/api/automation/search_people", {
+        const res = await fetch("https://aisalesagent-cxre.onrender.com/api/automation/search_people", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ domain: website, limit: 15, target_titles: "" })
@@ -148,7 +148,7 @@ function LeadListsPage() {
     setIsDirectSearching(true);
     toast.loading("AI is researching and pitching this company...", { id: "direct-pitch" });
     try {
-      const res = await fetch("http://localhost:8000/api/automation/enrich_and_pitch", {
+      const res = await fetch("https://aisalesagent-cxre.onrender.com/api/automation/enrich_and_pitch", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(directSearchForm)
@@ -179,7 +179,7 @@ function LeadListsPage() {
     setIsEnriching(true);
     toast.loading("AI Researcher is crawling and enriching leads...", { id: "enrich" });
     try {
-      const res = await fetch("http://localhost:8000/api/automation/enrich_leads", {
+      const res = await fetch("https://aisalesagent-cxre.onrender.com/api/automation/enrich_leads", {
         method: "POST"
       });
       if (res.ok) {
@@ -202,7 +202,7 @@ function LeadListsPage() {
     setCopilotLoadingId(leadId);
     toast.loading("AI Copilot is drafting a reply...", { id: "copilot" });
     try {
-      const res = await fetch(`http://localhost:8000/api/copilot/suggest/${leadId}`);
+      const res = await fetch(`https://aisalesagent-cxre.onrender.com/api/copilot/suggest/${leadId}`);
       if (res.ok) {
         const data = await res.json();
         if (data.error) {
@@ -235,7 +235,7 @@ function LeadListsPage() {
     if (!confirm("Are you sure you want to delete this lead? This action cannot be undone.")) return;
     toast.loading("Deleting lead...", { id: "delete-lead" });
     try {
-      const res = await fetch(`http://localhost:8000/api/automation/leads/${leadId}`, {
+      const res = await fetch(`https://aisalesagent-cxre.onrender.com/api/automation/leads/${leadId}`, {
         method: "DELETE"
       });
       if (res.ok) {
