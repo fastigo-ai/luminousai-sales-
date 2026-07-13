@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { Icon } from "./Icon";
 import { useEffect, useState } from "react";
 import { Command } from "cmdk";
-
+import { toast } from "sonner";
 const navItems = [
   { label: "Dashboard", icon: "dashboard", to: "/" },
   { label: "Workspaces", icon: "folder", to: "/workspaces" },
@@ -16,13 +16,6 @@ const navItems = [
   { label: "Proposals", icon: "description", to: "/proposals" },
   { label: "Analytics", icon: "analytics", to: "/analytics" },
 ] as const;
-
-const mobileNav = [
-  { to: "/", label: "Home", icon: "home" },
-  { to: "/leads", label: "Leads", icon: "groups" },
-  { to: "/calls", label: "Calls", icon: "call" },
-] as const;
-
 
 export function AppShell({
   children,
@@ -39,6 +32,7 @@ export function AppShell({
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [open, setOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Toggle the menu when ⌘K is pressed
   useEffect(() => {
@@ -54,16 +48,31 @@ export function AppShell({
 
   return (
     <div className="min-h-screen bg-background text-on-background lg:pl-64 flex flex-col">
+      {/* Mobile Sidebar Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-primary border-r border-outline-variant p-4 z-50">
-        <div className="flex items-center gap-3 mb-8 px-2">
-          <div className="w-10 h-10 bg-secondary-fixed rounded-lg flex items-center justify-center text-primary">
+      <aside className={`h-screen w-64 fixed left-0 top-0 flex flex-col bg-primary border-r border-outline-variant p-4 z-50 transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
+        <div className="flex items-center justify-between gap-3 mb-8 px-2">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-secondary-fixed rounded-lg flex items-center justify-center text-primary">
             <Icon name="hub" filled />
           </div>
           <div>
             <h1 className="text-secondary-fixed text-headline-sm font-bold leading-tight">OMNISALES AI</h1>
             <p className="text-primary-fixed-dim text-label-md font-semibold uppercase tracking-wider">Fastigo AI</p>
           </div>
+          <button 
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="lg:hidden text-primary-fixed-dim hover:text-white p-2 rounded-full hover:bg-primary-container/50 transition-colors"
+          >
+            <Icon name="close" />
+          </button>
         </div>
         <nav className="flex-1 space-y-1">
           {navItems.map((item) => {
@@ -72,6 +81,7 @@ export function AppShell({
               <Link
                 key={item.to}
                 to={item.to}
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={
                   active
                     ? "flex items-center gap-3 bg-primary-container text-on-primary-container rounded-lg px-4 py-3"
@@ -86,7 +96,10 @@ export function AppShell({
 
         </nav>
         <div className="mt-auto pt-4 border-t border-primary-container/40">
-          <button className="w-full bg-secondary-container text-on-secondary-fixed py-3 rounded-lg text-label-md font-bold mb-3 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+          <button 
+            onClick={() => toast.info("New Lead Creation coming soon!", { id: "new-lead" })}
+            className="w-full bg-secondary-container text-on-secondary-fixed py-3 rounded-lg text-label-md font-bold mb-3 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
+          >
             <Icon name="add" />
             New Lead
           </button>
@@ -97,8 +110,14 @@ export function AppShell({
         </div>
       </aside>
 
-      <header className="sticky top-0 z-40 bg-surface h-16 border-b border-outline-variant flex justify-between items-center px-6 lg:px-8">
-        <div className="flex items-center gap-4 flex-1">
+      <header className="sticky top-0 z-40 bg-surface h-16 border-b border-outline-variant flex justify-between items-center px-4 lg:px-8">
+        <div className="flex items-center gap-2 lg:gap-4 flex-1">
+          <button 
+            className="lg:hidden p-2 -ml-2 text-on-surface-variant hover:bg-surface-container rounded-full"
+            onClick={() => setIsMobileMenuOpen(true)}
+          >
+            <Icon name="menu" />
+          </button>
           <div className="relative w-full max-w-md hidden md:block">
             <button
               onClick={() => setOpen(true)}
@@ -113,46 +132,33 @@ export function AppShell({
               </kbd>
             </button>
           </div>
-          <h2 className="lg:hidden text-headline-sm font-bold text-primary">Bharat Sales Intel</h2>
+          <h2 className="lg:hidden text-title-md font-bold text-primary truncate">Bharat Sales Intel</h2>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 lg:gap-3">
           {showAiBadge && (
             <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-tertiary-fixed/30 rounded-full border border-tertiary-fixed-dim">
               <span className="w-2 h-2 rounded-full bg-on-tertiary-container animate-pulse" />
               <span className="text-label-md text-on-tertiary-fixed-variant font-semibold">AI Active</span>
             </div>
           )}
-          <button className="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all relative">
+          <button 
+            onClick={() => toast.info("No new notifications", { id: "notifs" })}
+            className="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all relative"
+          >
             <Icon name="notifications" />
             <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full" />
           </button>
-          <div className="h-9 w-9 rounded-full bg-primary-container flex items-center justify-center text-secondary-fixed font-bold text-sm">
+          <button 
+            onClick={() => toast.info("Profile & Account settings coming soon", { id: "profile" })}
+            className="h-9 w-9 rounded-full bg-primary-container flex items-center justify-center text-secondary-fixed font-bold text-sm hover:opacity-80 transition-opacity"
+          >
             AS
-          </div>
+          </button>
         </div>
       </header>
 
-      <main className="flex-1 p-6 lg:p-8 pb-24 lg:pb-8">{children}</main>
+      <main className="flex-1 p-4 lg:p-8 pb-8">{children}</main>
 
-      <nav className="lg:hidden fixed bottom-0 left-0 w-full bg-surface border-t border-outline-variant flex justify-around items-center h-16 px-2 z-50 shadow-lg">
-        {mobileNav.map((item) => {
-          const active = pathname === item.to;
-          return (
-            <Link
-              key={item.to}
-              to={item.to}
-              className={
-                active
-                  ? "flex flex-col items-center justify-center bg-secondary-fixed text-on-secondary-fixed rounded-full px-4 py-1 transition-all"
-                  : "flex flex-col items-center justify-center text-on-surface-variant px-4 py-2 transition-all"
-              }
-            >
-              <Icon name={item.icon} filled={active} />
-              <span className="text-[10px] font-bold uppercase tracking-tighter">{item.label}</span>
-            </Link>
-          );
-        })}
-      </nav>
       {/* CMDK Global Search */}
       <Command.Dialog
         open={open}
@@ -194,7 +200,10 @@ export function AppShell({
 
             <Command.Group heading={<span className="px-2 text-[10px] font-bold uppercase tracking-wider text-on-surface-variant mb-1 mt-4 block">Quick Actions</span>}>
               <Command.Item
-                onSelect={() => setOpen(false)}
+                onSelect={() => {
+                  setOpen(false);
+                  toast.info("New Lead Creation coming soon!", { id: "new-lead-cmd" });
+                }}
                 className="flex items-center gap-2 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary cursor-pointer aria-selected:bg-primary/10 aria-selected:text-primary text-on-surface text-body-md transition-colors"
               >
                 <Icon name="add" />
