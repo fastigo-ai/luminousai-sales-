@@ -21,7 +21,7 @@ type Message = {
   full?: boolean;
 };
 
-const BACKEND_URL = "https://aisalesagent-cxre.onrender.com";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || (import.meta.env.VITE_BACKEND_URL || "https://aisalesagent-cxre.onrender.com") + "";
 const SENDER_ID = "web_user";
 
 function AssistantPage() {

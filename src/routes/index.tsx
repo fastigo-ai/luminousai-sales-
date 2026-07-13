@@ -26,19 +26,19 @@ function DashboardPage() {
 
   const { data: recommendations } = useQuery({
     queryKey: ["ai-recommendations"],
-    queryFn: () => fetch("https://aisalesagent-cxre.onrender.com/api/dashboard/ai_recommendations").then(res => res.json()),
+    queryFn: () => fetch((import.meta.env.VITE_BACKEND_URL || "https://aisalesagent-cxre.onrender.com") + "/api/dashboard/ai_recommendations").then(res => res.json()),
     refetchInterval: 10000,
   });
 
   const queryClient = useQueryClient();
   const { data: autopilotStatus } = useQuery({
     queryKey: ["autopilot-status"],
-    queryFn: () => fetch("https://aisalesagent-cxre.onrender.com/api/god-mode/autopilot").then(res => res.json()),
+    queryFn: () => fetch((import.meta.env.VITE_BACKEND_URL || "https://aisalesagent-cxre.onrender.com") + "/api/god-mode/autopilot").then(res => res.json()),
   });
 
   const toggleAutopilot = useMutation({
     mutationFn: async (enabled: boolean) => {
-      const res = await fetch("https://aisalesagent-cxre.onrender.com/api/god-mode/autopilot", {
+      const res = await fetch((import.meta.env.VITE_BACKEND_URL || "https://aisalesagent-cxre.onrender.com") + "/api/god-mode/autopilot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ enabled })
@@ -95,7 +95,10 @@ function DashboardPage() {
             >
               <Icon name="rocket_launch" /> Launch AI Campaign
             </button>
-            <button className="bg-surface-container-high text-primary px-4 py-2 h-11 rounded-lg text-label-md font-semibold flex items-center gap-2 border border-outline-variant">
+            <button 
+              onClick={() => toast.info("Export functionality coming soon", { id: "export" })}
+              className="bg-surface-container-high hover:bg-surface-container-highest text-primary px-4 py-2 h-11 rounded-lg text-label-md font-semibold flex items-center gap-2 border border-outline-variant transition-colors"
+            >
               <Icon name="download" /> Export
             </button>
           </div>
@@ -240,7 +243,7 @@ function LaunchCampaignModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
 
     setLoading(true);
     try {
-      const res = await fetch("https://aisalesagent-cxre.onrender.com/api/automation/start", {
+      const res = await fetch((import.meta.env.VITE_BACKEND_URL || "https://aisalesagent-cxre.onrender.com") + "/api/automation/start", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
