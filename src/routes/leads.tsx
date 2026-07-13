@@ -24,12 +24,12 @@ type Lead = {
   status?: string;
 };
 
-const BACKEND_URL = "https://aisalesagent-cxre.onrender.com";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || (import.meta.env.VITE_BACKEND_URL || "https://aisalesagent-cxre.onrender.com") + "";
 
 import { useLeadDrawer } from "@/contexts/LeadDrawerContext";
 
 function LeadsPage() {
-  const [leads, setLeads] = useState<Lead[]>([]);   
+  const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const { openDrawer } = useLeadDrawer();
 

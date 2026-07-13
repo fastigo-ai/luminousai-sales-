@@ -9,7 +9,7 @@ export const Route = createFileRoute("/workspaces")({
   component: WorkspacesPage,
 });
 
-const BACKEND_URL = "https://aisalesagent-cxre.onrender.com";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || (import.meta.env.VITE_BACKEND_URL || "https://aisalesagent-cxre.onrender.com") + "";
 
 function WorkspacesPage() {
   const [isConfigSaving, setIsConfigSaving] = useState(false);
@@ -155,7 +155,12 @@ function WorkspacesPage() {
                     <td className="px-5 py-4 text-body-sm text-on-surface-variant max-w-[200px] truncate" title={d.reason}>{d.reason}</td>
                     <td className="px-5 py-4 text-right text-data-numeric text-primary font-medium">${d.value.toLocaleString()}</td>
                     <td className="px-5 py-4 text-center">
-                      <button className="bg-error text-white px-3 py-1.5 rounded-lg text-label-sm font-bold hover:opacity-90">Review</button>
+                      <button 
+                        onClick={() => toast.info("Lead review modal coming soon!", { id: "review" })}
+                        className="bg-error text-white px-3 py-1.5 rounded-lg text-label-sm font-bold hover:opacity-90"
+                      >
+                        Review
+                      </button>
                     </td>
                   </tr>
                 ))}

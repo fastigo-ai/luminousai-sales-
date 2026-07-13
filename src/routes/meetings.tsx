@@ -10,7 +10,7 @@ export const Route = createFileRoute("/meetings")({
   component: MeetingsComponent,
 });
 
-const BACKEND_URL = "https://aisalesagent-cxre.onrender.com";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || (import.meta.env.VITE_BACKEND_URL || "https://aisalesagent-cxre.onrender.com") + "";
 
 function MeetingsComponent() {
   const { data, isLoading } = useQuery({

@@ -20,7 +20,7 @@ export function AiRecommendationCard({
   onAction
 }: RecommendationProps) {
   const isHot = type === "hot";
-  
+
   return (
     <div className={`mb-4 border-l-4 rounded-xl overflow-hidden bg-surface-container-lowest border ${isHot ? "border-l-error border-y-outline-variant border-r-outline-variant" : "border-l-secondary border-y-outline-variant border-r-outline-variant"}`}>
       <div className="p-5">
@@ -37,7 +37,7 @@ export function AiRecommendationCard({
             </span>
           )}
         </div>
-        
+
         <div className="mb-4">
           <p className="text-label-md font-semibold text-on-surface-variant uppercase mb-1">Reason:</p>
           <div className="text-body-md text-primary font-medium">
@@ -54,7 +54,7 @@ export function AiRecommendationCard({
           <p className="text-body-md text-primary">{suggestedAction}</p>
         </div>
 
-        <button 
+        <button
           onClick={onAction}
           className="w-full bg-primary text-white py-2.5 rounded-lg text-label-md font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
         >

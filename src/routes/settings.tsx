@@ -19,7 +19,7 @@ type LogItem = {
   message: string;
 };
 
-const BACKEND_URL = "https://aisalesagent-cxre.onrender.com";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || (import.meta.env.VITE_BACKEND_URL || "https://aisalesagent-cxre.onrender.com") + "";
 
 function SettingsPage() {
   // Connection states
@@ -39,6 +39,8 @@ function SettingsPage() {
 
   // Calendar States
   const [calConnected, setCalConnected] = useState(false);
+  const [gmailConnected, setGmailConnected] = useState(false);
+  const [gmailEmail, setGmailEmail] = useState<string | null>(null);
 
   // Command logs state
   const [logs, setLogs] = useState<LogItem[]>([]);
@@ -68,6 +70,8 @@ function SettingsPage() {
       setBackendOffline(false);
       setWaConnected(data.whatsapp.connected);
       setCalConnected(data.google_calendar.authorized);
+      setGmailConnected(data.gmail?.authorized || false);
+      setGmailEmail(data.gmail?.email || null);
       if (data.smtp.configured && data.smtp.username) {
         setSmtpUser(data.smtp.username);
       }
@@ -176,6 +180,10 @@ function SettingsPage() {
     window.open(`${BACKEND_URL}/api/calendar/auth`, "_blank");
     // Optimistic refresh
     setTimeout(() => checkStatus(), 5000);
+  };
+
+  const handleConnectGmail = () => {
+    window.location.href = `${BACKEND_URL}/api/gmail/auth`;
   };
 
   return (
@@ -338,13 +346,48 @@ function SettingsPage() {
           </div>
         </section>
 
-        {/* Section 2: Google Calendar Integration & Log Visualizer */}
-        <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Section 2: Google Workspace Integrations & Log Visualizer */}
+        <section className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          
+          {/* Gmail Integration Box */}
+          <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant flex flex-col justify-between min-h-[220px]">
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-8 h-8 rounded-lg bg-[#EA4335] flex items-center justify-center text-white">
+                  <Icon name="mail" />
+                </span>
+                <h3 className="text-title-md font-bold text-on-surface">Gmail API / Workspace</h3>
+              </div>
+              <p className="text-body-sm text-on-surface-variant">
+                Bypass Render port restrictions. Connect Gmail directly via OAuth to send AI pitches and auto-reply to incoming emails.
+              </p>
+            </div>
+
+            {gmailConnected ? (
+              <div className="bg-success-container/10 border border-success/30 p-4 rounded-xl flex items-center gap-3 mt-4">
+                <Icon name="check_circle" className="text-success" style={{ fontSize: 28 }} />
+                <div className="truncate">
+                  <h4 className="font-bold text-success">Connected via OAuth</h4>
+                  <p className="text-body-sm text-on-surface-variant truncate" title={gmailEmail || "unknown"}>{gmailEmail || "Active"}</p>
+                </div>
+              </div>
+            ) : (
+              <button 
+                onClick={handleConnectGmail}
+                disabled={backendOffline}
+                className={`w-full mt-4 bg-[#EA4335]/10 text-[#EA4335] hover:bg-[#EA4335]/20 py-2.5 rounded-lg text-body-sm font-bold flex items-center justify-center gap-2 transition-colors ${backendOffline ? "opacity-50 cursor-not-allowed" : ""}`}
+              >
+                <Icon name="login" />
+                Connect Gmail Account
+              </button>
+            )}
+          </div>
+
           {/* Calendar Box */}
           <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant flex flex-col justify-between min-h-[220px]">
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <span className="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-white">
+                <span className="w-8 h-8 rounded-lg bg-[#4285F4] flex items-center justify-center text-white">
                   <Icon name="calendar_today" />
                 </span>
                 <h3 className="text-title-md font-bold text-on-surface">Google Calendar Link</h3>
@@ -355,10 +398,10 @@ function SettingsPage() {
             </div>
 
             {calConnected ? (
-              <div className="bg-success-container/10 border border-success/30 p-4 rounded-xl flex items-center gap-3">
-                <Icon name="check_circle" className="text-secondary" style={{ fontSize: 28 }} />
+              <div className="bg-success-container/10 border border-success/30 p-4 rounded-xl flex items-center gap-3 mt-4">
+                <Icon name="check_circle" className="text-success" style={{ fontSize: 28 }} />
                 <div>
-                  <h4 className="font-bold text-secondary">Authorized</h4>
+                  <h4 className="font-bold text-success">Authorized</h4>
                   <p className="text-body-sm text-on-surface-variant">Ready to schedule events.</p>
                 </div>
               </div>
@@ -366,7 +409,7 @@ function SettingsPage() {
               <button 
                 onClick={handleGoogleAuthRedirect}
                 disabled={backendOffline}
-                className={`w-full bg-secondary-container text-on-secondary-fixed py-2.5 rounded-lg text-body-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity ${backendOffline ? "opacity-50 cursor-not-allowed" : ""}`}
+                className={`w-full mt-4 bg-[#4285F4]/10 text-[#4285F4] hover:bg-[#4285F4]/20 py-2.5 rounded-lg text-body-sm font-bold flex items-center justify-center gap-2 transition-colors ${backendOffline ? "opacity-50 cursor-not-allowed" : ""}`}
               >
                 <Icon name="sync" />
                 Authorize Google Calendar
@@ -427,3 +470,4 @@ function SettingsPage() {
     </AppShell>
   );
 }
+

@@ -11,7 +11,7 @@ export const Route = createFileRoute("/campaigns")({
   component: CampaignsComponent,
 });
 
-const BACKEND_URL = "https://aisalesagent-cxre.onrender.com";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || (import.meta.env.VITE_BACKEND_URL || "https://aisalesagent-cxre.onrender.com") + "";
 
 function CampaignsComponent() {
   const { data, isLoading, refetch } = useQuery({
@@ -28,7 +28,7 @@ function CampaignsComponent() {
   useEffect(() => {
     // Connect to WebSocket for real-time updates
     const connectWs = () => {
-      const ws = new WebSocket(`wss://aisalesagent-cxre.onrender.com/api/campaigns/stream`);
+      const ws = new WebSocket(`${(import.meta.env.VITE_BACKEND_URL || "wss://aisalesagent-cxre.onrender.com").replace("http", "ws")}/api/campaigns/stream`);
       wsRef.current = ws;
 
       ws.onopen = () => {
@@ -109,7 +109,10 @@ function CampaignsComponent() {
             Real-time outbound sequences and engagement tracking.
           </p>
         </div>
-        <button className="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-full font-bold hover:bg-primary/90 transition-colors shadow-sm">
+        <button 
+          onClick={() => toast.info("Campaign creation coming soon!", { id: "new-campaign" })}
+          className="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-full font-bold hover:bg-primary/90 transition-colors shadow-sm"
+        >
           <Icon name="add" /> New Campaign
         </button>
       </div>
@@ -241,7 +244,7 @@ function CampaignLeadsTable({ campaignId }: { campaignId: number }) {
   const leads = data?.leads || [];
 
   return (
-    <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
+    <div className="max-h-[400px] overflow-y-auto overflow-x-auto custom-scrollbar">
       {leads.length === 0 ? (
         <p className="text-on-surface-variant text-center py-8">No leads in this campaign yet.</p>
       ) : (
