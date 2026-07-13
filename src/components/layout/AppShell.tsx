@@ -61,11 +61,12 @@ export function AppShell({
         <div className="flex items-center justify-between gap-3 mb-8 px-2">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-secondary-fixed rounded-lg flex items-center justify-center text-primary">
-            <Icon name="hub" filled />
-          </div>
-          <div>
-            <h1 className="text-secondary-fixed text-headline-sm font-bold leading-tight">OMNISALES AI</h1>
-            <p className="text-primary-fixed-dim text-label-md font-semibold uppercase tracking-wider">Fastigo AI</p>
+              <Icon name="hub" filled />
+            </div>
+            <div>
+              <h1 className="text-secondary-fixed text-headline-sm font-bold leading-tight">OMNISALES AI</h1>
+              <p className="text-primary-fixed-dim text-label-md font-semibold uppercase tracking-wider">Fastigo AI</p>
+            </div>
           </div>
           <button 
             onClick={() => setIsMobileMenuOpen(false)}
