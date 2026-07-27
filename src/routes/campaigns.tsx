@@ -28,7 +28,7 @@ function CampaignsComponent() {
   useEffect(() => {
     // Connect to WebSocket for real-time updates
     const connectWs = () => {
-      const ws = new WebSocket(`${(import.meta.env.VITE_BACKEND_URL || "wss://aisalesagent-cxre.onrender.com").replace("http", "ws")}/api/campaigns/stream`);
+      const ws = new WebSocket(`${(import.meta.env.VITE_BACKEND_URL || "wss://whale-app-muqf3.ondigitalocean.app").replace("http", "ws")}/api/campaigns/stream`);
       wsRef.current = ws;
 
       ws.onopen = () => {
