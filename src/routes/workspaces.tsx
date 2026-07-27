@@ -9,7 +9,7 @@ export const Route = createFileRoute("/workspaces")({
   component: WorkspacesPage,
 });
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || (import.meta.env.VITE_BACKEND_URL || "https://aisalesagent-cxre.onrender.com") + "";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || (import.meta.env.VITE_BACKEND_URL || "https://whale-app-muqf3.ondigitalocean.app") + "";
 
 function WorkspacesPage() {
   const [isConfigSaving, setIsConfigSaving] = useState(false);

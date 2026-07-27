@@ -25,7 +25,7 @@ function CallsPage() {
   useEffect(() => {
     const fetchCalls = async () => {
       try {
-        const res = await fetch((import.meta.env.VITE_BACKEND_URL || "https://aisalesagent-cxre.onrender.com") + "/api/poc/calls/list");
+        const res = await fetch((import.meta.env.VITE_BACKEND_URL || "https://whale-app-muqf3.ondigitalocean.app") + "/api/poc/calls/list");
         if (res.ok) {
           const data = await res.json();
           setCalls(data.calls || []);

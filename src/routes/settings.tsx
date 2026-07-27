@@ -19,7 +19,7 @@ type LogItem = {
   message: string;
 };
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || (import.meta.env.VITE_BACKEND_URL || "https://aisalesagent-cxre.onrender.com") + "";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || (import.meta.env.VITE_BACKEND_URL || "https://whale-app-muqf3.ondigitalocean.app") + "";
 
 function SettingsPage() {
   // Connection states
